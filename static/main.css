@@ -1,0 +1,33 @@
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+:root {
+    --grey-100-color: #E8E8E8;
+    --grey-300-color: #D2D2D2;
+    --grey-500-color: #A6A6A6;
+    --orange-100-color: #F7C3AF;
+    --orange-300-color: #F3A080;
+    --orange-500-color: #EC6C3A;
+}
+
+body {
+    font-family: 'Jost', sans-serif;
+}
+
+h1 {
+    font-weight: 800;
+}
+
+h2 {
+    font-weight: 700;
+}
+
+ol, ul {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
