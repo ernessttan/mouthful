@@ -182,13 +182,15 @@ def search(search_entry=None):
 
 @app.route('/view_recipe/<id>', methods=['GET', 'POST'])
 def view_recipe(id=None):
-    recipe_to_display = []
+    # recipe_to_display = []
     for key, value in recipes.items():
         recipe = value
         recipe_id = recipe["id"]
         if int(recipe_id) == int(id):
-            recipe_to_display.append(recipe)
-    return render_template("recipepage.html", recipe_to_display = recipe_to_display)
+            return render_template("recipepage.html", recipe = recipe)
+            # recipe_to_display.append(recipe)
+            # print(recipe_to_display)
+   
 
 
 if __name__ == '__main__':

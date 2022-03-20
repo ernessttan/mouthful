@@ -1,12 +1,12 @@
 const recipeFeed = $("#recipe-feed");
 
 
-function displayRecipeFeed(recipes) {
+const displayRecipeFeed = (recipes) => {
     // Empty Data
     recipeFeed.empty();
     // Display New Data
     $.each(recipes, (i, recipe) => {
-        let recipeCard = `<a href="${recipe["id"]}" class="recipe-card">
+        let recipeCard = `<div id="${recipe["id"]}" class="recipe-card">
         <div class="image-container">
             <img class="recipe-image" src="${recipe["image"]}">
             <div class="tags-container">
@@ -21,8 +21,15 @@ function displayRecipeFeed(recipes) {
                 <img id="star-icon" src="/static/icons/star.svg">
                 <div class="rating">${recipe["rating"]}</div>
         </div>
-        </a>`;
+        </div>`;
         recipeFeed.append(recipeCard);
+        $('.recipe-card').on("click", function(e) {
+            e.preventDefault();
+            let id = $(this).attr("id");
+            console.log(id);
+            let baseUrl = window.location.origin;
+            window.location.replace(baseUrl + "/view_recipe/" + id);
+        });
     });
     
 }

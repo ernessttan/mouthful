@@ -5,6 +5,7 @@
     --grey-100-color: #E8E8E8;
     --grey-300-color: #D2D2D2;
     --grey-500-color: #A6A6A6;
+    --grey-700-color: #636363;
     --orange-100-color: #F7C3AF;
     --orange-300-color: #F3A080;
     --orange-500-color: #EC6C3A;
@@ -168,5 +169,62 @@ nav {
 # Recipe Page
 --------------------------------------------------------------*/
 .recipe-grid {
-    display: grid;
+    display: grid; 
+    grid-template-columns: 1fr; 
+    grid-template-rows: 0.1fr 300px 0.3fr auto auto; 
+    gap: 20px 0px; 
+    padding: 20px 0px 20px 0px;
+    grid-template-areas: 
+    "title"
+    "image"
+    "info"
+    "ingredients"
+    "instructions";
+}
+.title {
+    grid-area: title;
+}
+.image {
+    grid-area: image;
+    width: 100%;
+    height: 100%;
+    
+}
+
+#recipe-image {
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.info {
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--grey-700-color);
+    font-weight: 600;
+}
+
+.recipe-time {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.ingredients {
+    grid-area: ingredients;
+}
+
+.recipe-instruction {
+    display: flex;
+    flex-direction: row;
+}
+.instruction {
+    flex: 1;
+}
+.instruction-num {
+    padding-right: 8px;
+    font-weight: 600;
 }

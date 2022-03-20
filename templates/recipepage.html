@@ -2,11 +2,42 @@
 
 {% block content %}
 <script type="text/javascript">
-    recipe_to_display = {{recipe_to_display|tojson}}
+    recipe_to_display = {{recipe|tojson}}
 </script>
 
 <section class="recipe-grid">
-
+    <div class="title">
+        <h2 id="recipe-title"></h2>
+    </div>
+    <div class="image">
+        <img id="recipe-image">
+    </div>
+    <div class="info">
+        <div class="cuisine">
+            <div id="recipe-cuisine"></div>
+        </div>
+        <div class="difficulty">
+            <div id="recipe-difficulty"></div>
+        </div>
+        <div class="recipe-time">
+            <div id="prep-time"></div>
+            <div id="cook-time"></div>
+        </div>
+        <div class="servings">
+            <div id="recipe-servings"></div>
+        </div>
+    </div>
+    <div class="ingredients">
+        <h5>Ingredients</h5>
+        <ul id="recipe-ingredients">
+        </ul>
+    </div>
+    <div class="instructions">
+        <h5>Instructions</h5>
+        <ul id="recipe-instructions">
+        </ul>
+    </div>
+   
 </section>
 <script type="text/javascript" src="{{ url_for('static', filename='js/recipepage.js')}}"></script>
 {% endblock %}
