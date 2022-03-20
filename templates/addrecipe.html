@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="add-grid">
+    <div id="recipe-intro">
+        <input type="text" id="title-input" placeholder="Name Your Recipe...">
+        <small class="error-message" id="title-error"></small>
+        <input type="text" id="description-input" placeholder="Add a Description..." name="description-input">
+        <small class="error-message" id="description-error"></small>
+    </div>
+</section>
+<script type="text/javascript" src="{{ url_for('static', filename='js/addrecipe.js')}}"></script>
+{% endblock %}

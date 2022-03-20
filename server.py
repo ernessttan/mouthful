@@ -158,7 +158,7 @@ recipes = {
         "instructions": ["Set the racks in the upper and lower thirds of the oven and preheat it to 425°F.","Line two large rimmed baking sheets with parchment paper. Divide the broccoli between the sheets, arranging them in a single layer.", "Drizzle each sheet of broccoli with 1/4 cup oil, then season each with 1/2 teaspoon salt and a few grinds of pepper.", "Roast, stirring once and rotating the sheets halfway through, until the broccoli is crispy and charred in spots, 35 to 40 minutes.", "Taste and adjust the seasoning, if desired."]
     } 
 }
-
+current_id = 9
 
 # Home Page Route #
 @app.route('/')
@@ -182,15 +182,28 @@ def search(search_entry=None):
 
 @app.route('/view_recipe/<id>', methods=['GET', 'POST'])
 def view_recipe(id=None):
-    # recipe_to_display = []
     for key, value in recipes.items():
         recipe = value
         recipe_id = recipe["id"]
         if int(recipe_id) == int(id):
             return render_template("recipepage.html", recipe = recipe)
-            # recipe_to_display.append(recipe)
-            # print(recipe_to_display)
-   
+
+@app.route('/add_recipe', methods=['GET', 'POST'])
+def add_recipe():
+    global recipes
+    global current_id
+
+    json_data = request.get_json()
+
+    if request.method == 'POST':
+        current_id += 1
+        json_data["id"] = current_id
+        recipes[current_id] = json_data
+        return jsonify(id=current_id, recipes=recipes)
+    if request.method == 'GET':
+        return render_template('addrecipe.html')
+
+
 
 
 if __name__ == '__main__':
