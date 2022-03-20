@@ -1,12 +1,10 @@
-const recipeFeed = $("#recipe-feed");
+function displaySearchResults(results) {
+    console.log("Results" + results);
+    let messageToDisplay = results['message'];
+    let recipes = results["result"];
 
-
-function displayRecipeFeed(recipes) {
-    // Empty Data
-    recipeFeed.empty();
-    // Display New Data
     $.each(recipes, (i, recipe) => {
-        let recipeCard = `<a href="${recipe["id"]}" class="recipe-card">
+        let recipeCard = `<a class="recipe-card">
         <div class="image-container">
             <img class="recipe-image" src="${recipe["image"]}">
             <div class="tags-container">
@@ -22,11 +20,13 @@ function displayRecipeFeed(recipes) {
                 <div class="rating">${recipe["rating"]}</div>
         </div>
         </a>`;
-        recipeFeed.append(recipeCard);
-    });
+        $("#search-results").append(recipeCard);
+        $("#results-message").append(messageToDisplay);
+    })
+
     
 }
 
 $(document).ready(() => {
-    displayRecipeFeed(recipes);
+    displaySearchResults(searchResults)
 })

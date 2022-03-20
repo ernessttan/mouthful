@@ -1,7 +1,8 @@
-const burger = document.querySelector('.burger');
-const navLinks = document.querySelector('.nav-links');
-const nav = document.querySelector('nav');
-
-// burger.addEventListener('click', () => {
-//     navLinks.classList.toggle('links-drop');
-// });
+$(document).ready(() => {
+    $("#search").on('submit', (e) => {
+        e.preventDefault();
+        let textEntry = $("#search-entry").val().toLowerCase();
+        let baseUrl = window.location.origin;
+        window.location.replace(baseUrl + "/search/" + textEntry);
+    });
+});

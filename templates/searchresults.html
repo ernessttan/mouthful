@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<!-- Script To Receive Data -->
+<script type="text/javascript">
+    searchResults = {{search_results|tojson}}
+</script>
+<h1 id="results-message"></h1>
+<section id="search-results">
+</section>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/searchresults.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script type="text/javascript">
+    recipe_to_display = {{recipe_to_display|tojson}}
+</script>
+
+<section class="recipe-grid">
+
+</section>
+<script type="text/javascript" src="{{ url_for('static', filename='js/recipepage.js')}}"></script>
+{% endblock %}

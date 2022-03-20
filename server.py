@@ -165,5 +165,31 @@ recipes = {
 def home():
     return render_template('home.html', recipes=recipes)
 
+# Search Results Route #
+@app.route('/search/<search_entry>', methods=['GET', 'POST'])
+def search(search_entry=None):
+    search_results = {
+        "message": "Showing Results For " + search_entry,
+        "result": []
+    }
+    for key, value in recipes.items():
+        recipe = value
+        recipe_title = recipe["title"].lower()
+        if search_entry in recipe_title:
+            print(recipe)
+            search_results["result"].append(recipe)
+    return render_template('searchresults.html', search_results = search_results)
+
+@app.route('/view_recipe/<id>', methods=['GET', 'POST'])
+def view_recipe(id=None):
+    recipe_to_display = []
+    for key, value in recipes.items():
+        recipe = value
+        recipe_id = recipe["id"]
+        if int(recipe_id) == int(id):
+            recipe_to_display.append(recipe)
+    return render_template("recipepage.html", recipe_to_display = recipe_to_display)
+
+
 if __name__ == '__main__':
    app.run(debug = True)

@@ -55,13 +55,18 @@ nav {
     color: var(--orange-500-color)
 }
 
-.search {
+.search-container {
+    display: flex;
+}
+
+#search {
     margin-top: 40px;
     display: flex;
     align-items: center;
     background-color: var(--grey-100-color);
     border-radius: 8px;
     padding: 8px 5px 8px 5px;
+    flex: 1;
 }
 
 #search-entry {
@@ -96,7 +101,7 @@ nav {
 --------------------------------------------------------------*/
 .recipe-card {
     display: grid; 
-    grid-auto-columns: 400px; 
+    grid-auto-columns: 440px; 
     grid-template-rows: 230px 30px 30px; 
     gap: 5px 0px; 
     grid-template-areas: 
@@ -127,7 +132,7 @@ nav {
     padding-right: 10px;
     font-size: 16px;
     font-weight:400;
-    width: 400px;
+    width: 440px;
 }
 
 .tag {
@@ -152,3 +157,16 @@ nav {
     height: 25px;
 }
   
+/*--------------------------------------------------------------
+# Search Results Page
+--------------------------------------------------------------*/
+#results-message {
+    padding: 5px 0px 15px 0px;
+}
+
+/*--------------------------------------------------------------
+# Recipe Page
+--------------------------------------------------------------*/
+.recipe-grid {
+    display: grid;
+}
