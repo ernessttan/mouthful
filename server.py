@@ -196,6 +196,7 @@ def add_recipe():
     json_data = request.get_json()
 
     if request.method == 'POST':
+        print(json_data)
         current_id += 1
         json_data["id"] = current_id
         recipes[current_id] = json_data

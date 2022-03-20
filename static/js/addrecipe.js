@@ -1,7 +1,350 @@
+let recipeToSave = {
+    id: 0,
+    title: "",
+    description: "",
+    image: "",
+    difficulty: "",
+    rating: 0,
+    preptime: 0,
+    cooktime: 0,
+    totaltime: 0,
+    servings: 0,
+    cuisine: "",
+    ingredients: [],
+    instructions: []
+}
+
+let ingredients = recipeToSave.ingredients;
+let instructions = recipeToSave.instructions;
+let recipeImage = recipeToSave.image;
+let recipeDifficulty = recipeToSave.difficulty;
+
+const previewImage = (input) => {
+    if (input.files && input.files[0]) {
+        // FileReader Object allows web applications to asynchronously read the contents of files
+        let reader = new FileReader();
+
+        // Fired when a read has been completed
+        reader.onload = function(e) {
+            let imageUrl = e.target.result;
+            recipeToSave.image = imageUrl;
+            // Update Image src with file url
+            $("#recipe-image-preview").attr("src", imageUrl);
+            // Hide Placeholder Image
+            $("#recipe-image-preview").hide();
+            $("#recipe-image-preview").fadeIn(650);
+            $("#recipe-image-preview").css({"width": "100%", "height": "100%"});
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+const saveRecipe = () => {
+    let totalTime = parseInt($("#prep-input").val()) + parseInt($("#cook-input").val());
+    recipeToSave.title = $("#title-input").val();
+    recipeToSave.servings = $("#servings-input").val();
+    recipeToSave.preptime = $("#prep-input").val();
+    recipeToSave.cooktime = $("#cook-input").val();
+    recipeToSave.cuisine = $("#cuisine-input").val();
+    recipeToSave.rating = $("#rating-input").val();
+    recipeToSave.totaltime = totalTime;
+    $.ajax({
+        type: "POST",
+        url: "add_recipe",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(recipeToSave),
+        success: function(results) {
+            viewRecipe(results["id"])
+            clearForm();
+            displaySuccess();
+        },
+        error: function(request, status, error){
+            console.log("Error");
+            console.log(request)
+            console.log(status)
+            console.log(error)
+        }
+    })
+}
+
+function recipeInputCheck() {
+    let recipeTitle = $("#title-input").val().trim();
+    let recipeDescription = $("#description-input").val().trim();
+    let recipeServings = $("#servings-input").val().trim();
+    let recipePrepTime = $("#prep-input").val().trim();
+    let recipeCookTime = $("#cook-input").val().trim();
+    let recipeCuisine = $("#cuisine-input").val().trim();
+    let recipeRating = $("#rating-input").val().trim();
+    let recipeImage = recipeToSave.image;
+    let recipeDifficulty = recipeToSave.difficulty;
+ 
+    if(recipeTitle === '') {
+        raiseError($("#title-error"), 'Title cannot be blank')
+        $("#title-input").css({"border": "1px solid var(--orange-500-color)"})
+    }
+    if(recipeDescription === '') {
+        raiseError($("#description-error"), 'Description cannot be blank');
+        $("#description-input").css({"border": "1px solid var(--orange-500-color)"});
+        return false
+    }
+    if(recipeServings === '') {
+        raiseError($("#servings-error"), 'Servings cannot be blank')
+        $("#servings-input").css({"border": "1px solid var(--orange-500-color)"})
+        return false
+    }
+    if(recipePrepTime === '') {
+        raiseError($("#prep-error"), 'Servings cannot be blank')
+        $("#prep-input").css({"border": "1px solid var(--orange-500-color)"})
+        return false
+    }
+    if(recipeCookTime === '') {
+        raiseError($("#cook-error"), 'Servings cannot be blank')
+        $("#cook-input").css({"border": "1px solid var(--orange-500-color)"})
+        return false
+    }
+    if(recipeCuisine === '') {
+        raiseError($("#cuisine-error"), 'Cuisine cannot be blank')
+        $("#cuisine-input").css({"border": "1px solid var(--orange-500-color)"})
+        return false
+    }
+    if(recipeRating === '') {
+        raiseError($("#rating-error"), 'Rating cannot be blank')
+        $("#rating-input").css({"border": "1px solid var(--orange-500-color)"})
+        return false
+    }
+    if(recipeDifficulty === '') {
+        alert("Please select a recipe difficulty")
+        return false
+    }
+    if(recipeImage === '') {
+        alert("Please add a recipe image")
+        return false
+    }
+    if(ingredients.length === 0) {
+        alert("Please add an ingredient")
+        return false
+    }
+    if(instructions.length === 0) {
+        alert("Please add an instruction")
+        return false
+    }
+    else {
+        return true;
+    }
+}
+
+function clearForm() {
+    $("#title-input").val('')
+    $("#description-input").val('');
+    $("#servings-input").val('')
+    $("#prep-input").val('')
+    $("#cook-input").val('');
+    $("#cuisine-input").val('');
+    $("#rating-input").val('');
+    $("#recipe-image-preview").attr("src", "/static/images/image_placeholder.svg");
+    $("#recipe-image-preview").css({width: "auto", height: "auto"})
+    $("#added-ingredients").empty();
+    $("#added-instructions").empty();
+}
+
+/* Error Handling */
+
+function raiseError(selector, message) {
+    selector.text(message)
+    $('html, body').animate({
+        scrollTop: $(selector).offset().top
+    }, 1000);
+}
+
+function removeOrange(selector) {
+    selector.css({"border": "none"})
+}
 
 
+/* Add Ingredient Functions */
+
+const addIngredient = () => {
+    let ingredientName = $("#ingredient-name").val();
+    let ingredientAmount = $("#ingredient-amount").val();
+    let ingredientUnit = $("#ingredient-unit").val();
+    let ingredient = ingredientAmount + ingredientUnit + " " + ingredientName;
+    recipeToSave.ingredients.push(ingredient);
+    $("#ingredient-name").val("");;
+    $("#ingredient-amount").val("");
+    $("#ingredient-unit").val("")
+}
+
+const ingredientInputCheck = () => {
+    let ingredientName = $("#ingredient-name").val().trim();
+    let ingredientAmount = $("#ingredient-amount").val();
+    let ingredientUnit = $("#ingredient-unit").val().trim();
+
+    if(ingredientName === '') {
+        raiseError($("#name-error"), 'Ingredient name cannot be blank');
+        $("#ingredient-name").css({"border": "1px solid var(--orange-500-color)"});
+    }
+    if(ingredientAmount === '') {
+        raiseError($("#amount-error"), "Amount cannot be blank");
+        $("#ingredient-amount").css({"border": "1px solid var(--orange-500-color)"});
+    }
+    if(ingredientUnit === '') {
+        raiseError($("#unit-error"), "Unit cannot be blank");
+        $("#ingredient-unit").css({"border": "1px solid var(--orange-500-color)"});
+    } 
+    else {
+        addIngredient();
+        displayAddedIngredients(ingredients);
+        $(".modal").css({"display": "none"});
+    }
+}
+
+const displayAddedIngredients = () => {
+    $("#added-ingredients").empty();
+
+    for(let i=0; i < ingredients.length; i++) {
+        let ingredient = ingredients[i]
+
+        let newIngredient = `<li class="ingredient-entry">
+        <div>${ingredient}</div> 
+        <button type='button' class='delete-ingredient'><img class='trash-icon' src='static/icons/trashred.svg'></button>
+        </li>`
+
+        $("#added-ingredients").append(newIngredient);
+        $(".delete-ingredient").on("click", function(e) {
+            e.preventDefault();
+            let ingredientToRemove = $(this).prev().html();
+            deleteAddedIngredient(ingredientToRemove);
+            displayAddedIngredients(ingredients);
+        });
+    }
+}
+
+const deleteAddedIngredient = (ingredientToRemove) => {
+    let index = ingredients.indexOf(ingredientToRemove);
+
+    if (index > -1) {
+        ingredients.splice(index, 1)
+    }
+}
+
+/* Add Instruction Functions */
+const addInstruction = () => { 
+    let instruction = $("#instruction-text").val();
+    $("#instruction-text").val("");
+    instructions.push(instruction);
+}
+
+const displayAddedInstructions = (instructions) => {
+    $("#added-instructions").empty();
+
+    for(let i=0; i < instructions.length; i++) {
+        let instruction = instructions[i];
+
+        let newInstruction = `<li class="instruction-entry">
+        <div><span class="instruction-num">${i + 1}</span><span class="instruction">${instruction}</span></div> 
+        <button type='button' class='delete-instruction'><img class='trash-icon' src='static/icons/trashred.svg'></button>
+        </li>`
+
+        $("#added-instructions").append(newInstruction);
+
+        $(".delete-instruction").on("click", function(e) {
+            e.preventDefault();
+            let instructionToRemove = $(this).prev().find(".instruction").html();
+            console.log(instructionToRemove);
+            deleteInstruction(instructionToRemove);
+            displayAddedInstructions(instructions);
+        });
+    }   
+}
+
+const deleteInstruction = (instructionToRemove) => {
+    let index = instructions.indexOf(instructionToRemove);
+
+    if (index > -1) {
+        instructions.splice(index, 1)
+    }
+}
+
+const instructionInputCheck = () => {
+    let instruction = $("#instruction-text").val();
+
+    if(instruction === '') {
+        raiseError($("#instruction-error"), "Instruction cannot be blank")
+        $("#instruction-text").css({"border": "1px solid var(--orange-500-color)"})
+    } else {
+        addInstruction();
+        displayAddedInstructions(instructions)
+        $(".modal").css({"display": "none"});
+    }
+}
+
+/*    Success Functions    */
+
+function displaySuccess() {
+    $("#success-message").css({"display": "block"});
+}
+
+function viewRecipe(id) {
+    let baseUrl = window.location.origin;
+    let recipeUrl = baseUrl + "/view_recipe/" + id
+    $("#view-recipe").attr("href", recipeUrl)
+}
 
 
-$(document).ready(function() {
+$(document).ready(() => {
+    $("#image-input").on("change", function() {
+        previewImage(this);
+    });
 
+    /* Modal Listeners */
+    $(".close-btn").on("click", function() {
+        $(".modal").css({"display": "none"});
+    });
+
+     /* Add Difficulty Listeners */
+     $("#easy, #intermediate, #hard").on("click", function(e) {
+         e.preventDefault()
+         recipeToSave.difficulty = $(this).html()
+        //  $(this).toggleClass("selected");
+     });
+
+     /* Add Ingredient Listeners */
+    $("#add-ingredient").on("click", function(e) {
+        e.preventDefault();
+        $("#ingredient-modal").css({"display": "block"});
+    });
+
+    $("#ingredient-save").on("click", function(e) {
+        e.preventDefault();
+        ingredientInputCheck();
+    });
+
+    $("#ingredient-name, #ingredient-amount, #ingredient-unit, #instruction-text").on("keyup", function() {
+        removeOrange($(this));
+        $(this).next().text('');
+    });
+
+     /* Add Instruction Listeners */
+     $("#add-instruction").on("click", function(e){
+        e.preventDefault();
+        $("#instruction-modal").css({"display": "block"});
+    });
+
+    $("#instruction-save").on("click", function(e){
+        e.preventDefault();
+        instructionInputCheck();
+    });
+
+    /*   Submit Listeners  */
+    $("#recipe-submit").on("click", function(e) {
+        e.preventDefault();
+        if(recipeInputCheck()) {
+            saveRecipe();
+        };
+    });
+    $("#title-input, #description-input, #servings-input, #prep-input, #cook-input, #cuisine-input, rating-input").on("keyup", function() {
+        removeOrange($(this));
+        $(this).next().text('');
+    })
 })
