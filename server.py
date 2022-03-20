@@ -200,11 +200,24 @@ def add_recipe():
         current_id += 1
         json_data["id"] = current_id
         recipes[current_id] = json_data
-        return jsonify(id=current_id, recipes=recipes)
+        return jsonify(id=current_id, recipes = recipes)
     if request.method == 'GET':
         return render_template('addrecipe.html')
 
-
+@app.route('/edit_recipe/<id>', methods=['GET', 'POST'])
+def edit_recipe(id=None):
+    global recipes
+    
+    if request.method == 'POST':
+        json_data = request.get_json()
+        id = json_data["id"]
+        return jsonify(id = id)
+    else:
+        for key, value in recipes.items():
+            recipe = value
+            recipe_id = recipe["id"]
+            if int(recipe_id) == int(id):
+                return render_template('editrecipe.html', recipe = recipe)
 
 
 if __name__ == '__main__':

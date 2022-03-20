@@ -9,14 +9,14 @@ const searchInputCheck = () => {
     }
 }
 
-function raiseError(selector, message) {
+const raiseError = (selector, message) => {
     selector.text(message)
     $('html, body').animate({
         scrollTop: $(selector).prev().offset().top
     }, 500);
 }
 
-function removeOrange(selector) {
+const removeOrange = (selector) => {
     selector.css({"border": "none"})
 }
 

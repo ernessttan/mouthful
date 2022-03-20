@@ -5,21 +5,50 @@ let recipeToSave = {
     image: "",
     difficulty: "",
     rating: 0,
-    preptime: 0,
-    cooktime: 0,
-    totaltime: 0,
-    servings: 0,
+    preptime: "",
+    cooktime: "",
+    servings: "",
     cuisine: "",
     ingredients: [],
     instructions: []
 }
 
-let ingredients = recipeToSave.ingredients;
-let instructions = recipeToSave.instructions;
-let recipeImage = recipeToSave.image;
-let recipeDifficulty = recipeToSave.difficulty;
+/*    Function to Fill recipeToSave object   */
+const fillRecipeToSave = (recipe) => {
+    recipeToSave.id = recipe["id"]
+    recipeToSave.title = recipe["title"];
+    recipeToSave.description = recipe["description"];
+    recipeToSave.image = recipe["image"]
+    recipeToSave.servings = recipe["servings"]
+    recipeToSave.preptime = recipe["preptime"]
+    recipeToSave.cooktime = recipe["cooktime"]
+    recipeToSave.cuisine = recipe["cuisine"]
+    recipeToSave.difficulty = recipe["difficulty"];
+    recipeToSave.ingredients = recipe["ingredients"];
+    recipeToSave.instructions = recipe["instructions"];
+    recipeToSave.rating = recipe["rating"];
+    
+    displayFields();
+}
 
-const previewImage = (input) => {
+
+/*    Function to display the Recipe   */
+const displayFields = () => {
+    $("#title-input").val(recipeToSave.title);
+    $("#description-input").val(recipeToSave.description);
+    $("#recipe-image-preview").attr("src", recipeToSave.image);
+    $("#recipe-image-preview").css({"object-fit": "cover", "width": "inherit", "height": "100%"});
+    $("#servings-input").val(recipeToSave.servings);
+    $("#prep-input").val(recipeToSave.preptime);
+    $("#cook-input").val(recipeToSave.cooktime);
+    $("#cuisine-input").val(recipeToSave.cuisine);
+    $("#rating-input").val(recipeToSave.rating);
+    displayAddedIngredients(recipeToSave.ingredients);
+    displayAddedInstructions(recipeToSave.instructions);
+}
+
+/*    Function For Previewing Recipe Image    */
+function previewImage(input) {
     if (input.files && input.files[0]) {
         // FileReader Object allows web applications to asynchronously read the contents of files
         let reader = new FileReader();
@@ -39,6 +68,7 @@ const previewImage = (input) => {
     }
 }
 
+/*    Function to save recipe to database   */
 const saveRecipe = () => {
     let totalTime = parseInt($("#prep-input").val()) + parseInt($("#cook-input").val());
     recipeToSave.title = $("#title-input").val();
@@ -67,7 +97,7 @@ const saveRecipe = () => {
         }
     })
 }
-
+/*    Function to validate recipe input   */
 function recipeInputCheck() {
     let recipeTitle = $("#title-input").val().trim();
     let recipeDescription = $("#description-input").val().trim();
@@ -121,11 +151,11 @@ function recipeInputCheck() {
         alert("Please add a recipe image")
         return false
     }
-    if(ingredients.length === 0) {
+    if(recipeToSave.ingredients.length === 0) {
         alert("Please add an ingredient")
         return false
     }
-    if(instructions.length === 0) {
+    if(recipeToSave.instructions.length === 0) {
         alert("Please add an instruction")
         return false
     }
@@ -134,6 +164,7 @@ function recipeInputCheck() {
     }
 }
 
+/*    Function to clear input fields   */
 function clearForm() {
     $("#title-input").val('')
     $("#description-input").val('');
@@ -148,20 +179,6 @@ function clearForm() {
     $("#added-instructions").empty();
 }
 
-// /* Error Handling */
-
-// const raiseError = (selector, message) => {
-//     selector.text(message)
-//     $('html, body').animate({
-//         scrollTop: $(selector).prev().offset().top
-//     }, 'slow');
-// }
-
-// const removeOrange = (selector) => {
-//     selector.css({"border": "none"})
-// }
-
-
 /*    Function to Add Ingredient   */
 const addIngredient = () => {
     let ingredientName = $("#ingredient-name").val();
@@ -174,32 +191,8 @@ const addIngredient = () => {
     $("#ingredient-unit").val("")
 }
 
-const ingredientInputCheck = () => {
-    let ingredientName = $("#ingredient-name").val().trim();
-    let ingredientAmount = $("#ingredient-amount").val();
-    let ingredientUnit = $("#ingredient-unit").val().trim();
-
-    if(ingredientName === '') {
-        raiseError($("#name-error"), 'Ingredient name cannot be blank');
-        $("#ingredient-name").css({"border": "1px solid var(--orange-500-color)"});
-    }
-    if(ingredientAmount === '') {
-        raiseError($("#amount-error"), "Amount cannot be blank");
-        $("#ingredient-amount").css({"border": "1px solid var(--orange-500-color)"});
-    }
-    if(ingredientUnit === '') {
-        raiseError($("#unit-error"), "Unit cannot be blank");
-        $("#ingredient-unit").css({"border": "1px solid var(--orange-500-color)"});
-    } 
-    else {
-        addIngredient();
-        displayAddedIngredients(ingredients);
-        $(".modal").css({"display": "none"});
-    }
-}
-
 /*    Function to Display Already Added Ingredients    */
-const displayAddedIngredients = () => {
+const displayAddedIngredients = (ingredients) => {
     $("#added-ingredients").empty();
 
     for(let i=0; i < ingredients.length; i++) {
@@ -207,10 +200,11 @@ const displayAddedIngredients = () => {
 
         let newIngredient = `<li class="ingredient-entry">
         <div>${ingredient}</div> 
-        <button type='button' class='delete-ingredient'><img class='trash-icon' src='static/icons/trashred.svg'></button>
+        <button type='button' class='delete-ingredient'><img class='trash-icon' src='/static/icons/trashred.svg'></button>
         </li>`
 
         $("#added-ingredients").append(newIngredient);
+
         $(".delete-ingredient").on("click", function(e) {
             e.preventDefault();
             let ingredientToRemove = $(this).prev().html();
@@ -219,7 +213,8 @@ const displayAddedIngredients = () => {
         });
     }
 }
-/*    Function to Delte Already Added Ingredients    */
+
+/*    Function to Delete Added Ingredients    */
 const deleteAddedIngredient = (ingredientToRemove) => {
     let index = ingredients.indexOf(ingredientToRemove);
 
@@ -244,7 +239,7 @@ const displayAddedInstructions = (instructions) => {
 
         let newInstruction = `<li class="instruction-entry">
         <div><span class="instruction-num">${i + 1}</span><span class="instruction">${instruction}</span></div> 
-        <button type='button' class='delete-instruction'><img class='trash-icon' src='static/icons/trashred.svg'></button>
+        <button type='button' class='delete-instruction'><img class='trash-icon' src='/static/icons/trashred.svg'></button>
         </li>`
 
         $("#added-instructions").append(newInstruction);
@@ -284,18 +279,21 @@ const instructionInputCheck = () => {
 
 /*    Success Functions    */
 
-function displaySuccess() {
+const displaySuccess = () => {
     $("#success-message").css({"display": "block"});
 }
 
-function viewRecipe(id) {
+const viewRecipe = (id) => {
     let baseUrl = window.location.origin;
     let recipeUrl = baseUrl + "/view_recipe/" + id
     $("#view-recipe").attr("href", recipeUrl)
 }
 
 
-$(document).ready(() => {
+
+$(document).ready(function() {
+    fillRecipeToSave(recipe_to_display);
+
     $("#image-input").on("change", function() {
         previewImage(this);
     });
@@ -328,8 +326,8 @@ $(document).ready(() => {
         $(this).next().text('');
     });
 
-     /* Add Instruction Listeners */
-     $("#add-instruction").on("click", function(e){
+    /* Add Instruction Listeners */
+    $("#add-instruction").on("click", function(e){
         e.preventDefault();
         $("#instruction-modal").css({"display": "block"});
     });
@@ -350,4 +348,5 @@ $(document).ready(() => {
         removeOrange($(this));
         $(this).next().text('');
     })
-})
+});
+

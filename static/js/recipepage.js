@@ -1,4 +1,5 @@
 const displayRecipe = (recipe) => {
+    $(".recipe-grid").attr("id", recipe.id)
     $("#recipe-title").append(recipe.title);
     $("#recipe-image").attr("src", recipe.image);
     $("#recipe-cuisine").append(`Cuisine Type: ${recipe.cuisine}`);
@@ -24,8 +25,12 @@ const displayRecipe = (recipe) => {
 
 }
 
-
-
 $(document).ready(() => {
     displayRecipe(recipe_to_display)
+    $("#edit-btn").on("click", function(e) {
+        e.preventDefault();
+        let id = $(".recipe-grid").attr("id");
+        let baseUrl = window.location.origin;
+        window.location.replace(baseUrl + "/edit_recipe/" + id);
+    })
 })

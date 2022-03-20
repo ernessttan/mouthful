@@ -1,0 +1,134 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script type="text/javascript">
+    recipe_to_display = {{recipe|tojson}}
+</script>
+
+<div id="success-message">
+    <div>Successfully Saved!</div>
+    <a id="view-recipe" href="">View Here</a>
+</div>
+<section class="add-grid">
+    <div id="add-intro">
+        <input type="text" id="title-input" placeholder="Name Your Recipe...">
+        <small class="error-message" id="title-error"></small>
+        <textarea id="description-input" placeholder="Add a Description..." name="description-input" rows="4" cols="50"></textarea>
+        <small class="error-message" id="description-error"></small>
+    </div>
+    <div id="add-image">
+        <div class="input-label">Recipe Image</div>
+        <label for="image-input">
+            <input type="file" id="image-input" accept="image/*" aria-label="Upload Recipe Photo">
+            <img src="/static/images/image_placeholder.svg" id="recipe-image-preview">
+        </label>
+    </div>
+    <div id="add-metrics">
+        <div class="metric-wrapper">
+            <div class="input-label">Servings</div>
+            <input class="input-grey" type="number" id="servings-input" placeholder="2"><br>
+            <small class="error-message" id="servings-error"></small>
+        </div>
+        <div class="metric-wrapper">
+            <div class="input-label">Prep Time(Minutes)</div>
+            <input class="input-grey" type="number" id="prep-input" placeholder="10"><br>
+            <small class="error-message" id="prep-error"></small>
+        </div>
+        <div class="metric-wrapper">
+            <div class="input-label">Cook Time(Minutes)</div>
+            <input class="input-grey" type="number" id="cook-input" placeholder="30">
+            <small class="error-message" id="cook-error"></small>
+        </div>
+        <div class="metric-wrapper">
+            <div class="input-label">Rating</div>
+            <input class="input-grey" type="number" id="rating-input" placeholder="1 to 5">
+            <small class="error-message" id="rating-error"></small>
+        </div>
+    </div>
+    <div id="add-cuisine">
+        <div class="cuisine-wrapper">
+            <div class="input-label">Cuisine</div>
+            <input class="input-grey" type="text" id="cuisine-input" placeholder="e.g. American, Japanese">
+            <small class="error-message" id="cuisine-error"></small>
+        </div>
+    </div>
+    <div id="add-difficulty">
+        <div class="input-label">Difficulty</div>
+        <div class="buttons-container">
+            <button type="button" id="easy" class="difficulty-btn">Easy</button>
+            <button type="button" id= "intermediate" class="difficulty-btn">Intermediate</button>
+            <button type="button" id="hard" class="difficulty-btn">Hard</button>
+            <small class="error-message" id="difficulty-error"></small>
+        </div>
+    </div>
+    <div id="add-ingredients">
+        <div class="input-label">Ingredients</div>
+        <button type="button" id="add-ingredient" class="add-btn">
+            <span id="add-icon"><img src="/static/icons/add.svg"></span>
+            <span id="add-text">Add Ingredient</span>
+        </button>
+        <ul id="added-ingredients">
+        </ul>
+        <div class="modal" id="ingredient-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add Ingredient</h2>
+                    <span class="close-btn">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="name-container">
+                        <div class="input-label">Ingredients</div>
+                        <input class="input-grey" id="ingredient-name" type="text" placeholder="Beef Steak">
+                        <small class="error-message" id="name-error"></small>
+                    </div>
+                    <div class="amount-container">
+                        <div class="amount-wrapper">
+                            <div class="input-label">Amount</div>
+                            <input class="input-grey" id="ingredient-amount" type="number" placeholder="200">
+                            <small class="error-message" id="amount-error"></small>
+                        </div>
+                        <div class="amount-wrapper">
+                            <div class="input-label">Unit</div>
+                            <input class="input-grey" id="ingredient-unit" type="text" placeholder="g">
+                            <small class="error-message" id="unit-error"></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="save-btn" type="button" id="ingredient-save">Save</button>
+                </div>
+            </div>
+        </div>
+     </div>
+     <div id="add-instructions">
+        <div class="input-label">Instructions</div>
+        <button type="button" id="add-instruction" class="add-btn">
+            <span id="add-icon"><img src="/static/icons/add.svg"></span>
+            <span id="add-text">Add Instruction</span>
+        </button>
+        <div class="modal" id="instruction-modal">
+            <!-- Modal Content -->
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Add Instruction</h2>
+                        <span class="close-btn">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-label">Instruction</div>
+                        <input class="input-grey" type="text" id="instruction-text" placeholder="Slice Beef">
+                        <small class="error-message" id="instruction-error"></small>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="save-btn" id="instruction-save">Save</button>
+                    </div>
+            </div>
+        </div>
+        <ul id="added-instructions">
+        </ul>
+     </div>
+     <div id="add-submit">
+        <button type="button" id="recipe-submit" class="save-btn">Save</button>
+    </div>
+</section>
+<script type="text/javascript" src="{{ url_for('static', filename='js/editrecipe.js')}}"></script>
+{% endblock %}
