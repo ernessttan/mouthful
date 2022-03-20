@@ -30,6 +30,11 @@ a {
     text-decoration: none;
 }
 
+a:focus {
+    text-decoration: none;
+    color: black;
+}
+
 button {
     border: none;
     outline: none;
@@ -52,6 +57,10 @@ h2 {
     font-weight: 700;
 }
 
+h3 {
+    font-size: 25px;
+}
+
 /*--------------------------------------------------------------
 # Navbar
 --------------------------------------------------------------*/
@@ -61,12 +70,23 @@ nav {
     align-items: center;
 }
 
+.nav-links>a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.add-icon {
+    padding-right: 5px;
+}
+
 .logo {
     color: var(--orange-500-color)
 }
 
 .search-container {
     display: flex;
+    flex-direction: column;
 }
 
 #search {
@@ -110,10 +130,11 @@ nav {
 # Recipe Card 
 --------------------------------------------------------------*/
 .recipe-card {
+    margin: 10px 0px 10px 0px;
     display: grid; 
     grid-auto-columns: 440px; 
-    grid-template-rows: 230px 30px 30px; 
-    gap: 5px 0px; 
+    grid-template-rows: 230px auto auto; 
+    gap: 0px 0px; 
     grid-template-areas: 
     "image"
     "title"
@@ -153,7 +174,10 @@ nav {
     display: flex;
 }
 
-.title-container { grid-area: title; }
+.title-container { 
+    grid-area: title;
+    padding: 10px 0px 10px 0px; 
+}
 
 .subtitle-container { 
     grid-area: subtitle;
@@ -192,6 +216,9 @@ nav {
 }
 .title {
     grid-area: title;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 .image {
     grid-area: image;

@@ -153,8 +153,8 @@ function clearForm() {
 function raiseError(selector, message) {
     selector.text(message)
     $('html, body').animate({
-        scrollTop: $(selector).offset().top
-    }, 1000);
+        scrollTop: $(selector).prev().offset().top
+    }, 'slow');
 }
 
 function removeOrange(selector) {
