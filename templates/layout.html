@@ -3,40 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mouthful Recipes</title>
 
-     <!-- Bootstrap CSS -->
-     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+     <!-- jquery -->
+     <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>  
+
      <!-- Google Fonts -->
      <link rel="preconnect" href="https://fonts.googleapis.com">
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap" rel="stylesheet">
      <!-- CSS -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
      <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Mouthful Recipes</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#">Add a Recipe</a>
-            </li>
-          </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+    <header>
+        <nav>
+            <div class="logo">
+                Mouthful Recipes
+            </div>
+            <div class="nav-links">
+               <a href="#">Add a Recipe</a>
+            </div>
+        </nav>
+        <div class="search">
+            <input id="search-entry" type="text" placeholder="Search Recipes">
+            <button id="search-submit" type="submit">
+                <img class="search-icon" src="/static/icons/search.svg">
+            </button>
         </div>
-      </nav>
-      {% block content %}
-      {% endblock %}
-    <!-- jquery -->
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+    </footer>
+    <script src="{{url_for('static', filename='js/layout.js')}}"></script>
+   
 </body>
 </html>

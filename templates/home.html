@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script>
+    recipes = {{recipes|tojson}}
+</script>
+
+<section id="recipe-feed">
+    <!-- <a class="recipe-card">
+            <div class="image-container">
+                <img class="recipe-image" src="/static/images/kimchi_rice.jpg">
+                <div class="tags-container">
+                    <div class="tag difficulty">Easy</div>
+                    <div class="tag time">20m</div>
+                </div>
+            </div>
+            <div class="title-container">
+                <h3>Kimchi Spam Rice</h3>
+            </div>
+            <div class="subtitle-container">
+                <img id="star-icon" src="/static/icons/star.svg">
+                <div class="rating">4.0</div>
+            </div>
+    </a> -->
+</section>
+
+<section class="recipe-category">
+
+</section>
+<script type="text/javascript" src="{{ url_for('static', filename='js/home.js')}}"></script>
+{% endblock %}
