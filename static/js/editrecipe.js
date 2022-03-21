@@ -4,7 +4,7 @@ let recipeToSave = {
     description: "",
     image: "",
     difficulty: "",
-    rating: 0,
+    rating: 4.0,
     preptime: "",
     cooktime: "",
     servings: "",
@@ -26,7 +26,6 @@ const fillRecipeToSave = (recipe) => {
     recipeToSave.difficulty = recipe["difficulty"];
     recipeToSave.ingredients = recipe["ingredients"];
     recipeToSave.instructions = recipe["instructions"];
-    recipeToSave.rating = recipe["rating"];
     
     displayFields();
 }
@@ -42,7 +41,6 @@ const displayFields = () => {
     $("#prep-input").val(recipeToSave.preptime);
     $("#cook-input").val(recipeToSave.cooktime);
     $("#cuisine-input").val(recipeToSave.cuisine);
-    $("#rating-input").val(recipeToSave.rating);
     displayAddedIngredients(recipeToSave.ingredients);
     displayAddedInstructions(recipeToSave.instructions);
 }
@@ -76,7 +74,6 @@ const saveRecipe = () => {
     recipeToSave.preptime = $("#prep-input").val();
     recipeToSave.cooktime = $("#cook-input").val();
     recipeToSave.cuisine = $("#cuisine-input").val();
-    recipeToSave.rating = $("#rating-input").val();
     recipeToSave.totaltime = totalTime;
     $.ajax({
         type: "POST",
@@ -105,7 +102,6 @@ function recipeInputCheck() {
     let recipePrepTime = $("#prep-input").val().trim();
     let recipeCookTime = $("#cook-input").val().trim();
     let recipeCuisine = $("#cuisine-input").val().trim();
-    let recipeRating = $("#rating-input").val().trim();
     let recipeImage = recipeToSave.image;
     let recipeDifficulty = recipeToSave.difficulty;
  
@@ -138,11 +134,6 @@ function recipeInputCheck() {
         $("#cuisine-input").css({"border": "1px solid var(--orange-500-color)"})
         return false
     }
-    if(recipeRating === '') {
-        raiseError($("#rating-error"), 'Rating cannot be blank')
-        $("#rating-input").css({"border": "1px solid var(--orange-500-color)"})
-        return false
-    }
     if(recipeDifficulty === '') {
         alert("Please select a recipe difficulty")
         return false
@@ -172,7 +163,6 @@ function clearForm() {
     $("#prep-input").val('')
     $("#cook-input").val('');
     $("#cuisine-input").val('');
-    $("#rating-input").val('');
     $("#recipe-image-preview").attr("src", "/static/images/image_placeholder.svg");
     $("#recipe-image-preview").css({width: "auto", height: "auto"})
     $("#added-ingredients").empty();
@@ -344,7 +334,7 @@ $(document).ready(function() {
             saveRecipe();
         };
     });
-    $("#title-input, #description-input, #servings-input, #prep-input, #cook-input, #cuisine-input, #rating-input").on("keyup", function() {
+    $("#title-input, #description-input, #servings-input, #prep-input, #cook-input, #cuisine-input").on("keyup", function() {
         removeOrange($(this));
         $(this).next().text('');
     })

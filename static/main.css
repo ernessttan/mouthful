@@ -232,67 +232,6 @@ nav {
     flex-direction: row;
     gap: 5px; 
 }
-/* .recipe-card {
-    display: grid;
-    grid-template-columns: 400px;
-    grid-template-rows: 230px auto auto; 
-    gap: 0px 0px; 
-    flex: 1;
-    grid-template-areas: 
-    "image"
-    "title"
-    "subtitle"; 
-}
-.image-container { 
-    grid-area: image;
-    width: 100%;
-    height: 100%; 
-}
-
-.recipe-image {
-    width: inherit;
-    height: inherit;
-    object-fit: cover;
-    border-radius: 6px;
-}
-
-.tags-container {
-    display: flex;
-    position: absolute;
-    flex-direction: row;
-    margin-top: -50px;
-    justify-content: space-between;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-size: 16px;
-    font-weight:400;
-    width: inherit;
-}
-
-.tag {
-    border-radius: 6px;
-    background-color: rgba(33, 33, 33, 0.8);
-    color: #FBFAF9;
-    padding: 4px 10px 4px 10px;
-    display: flex;
-}
-
-.title-container { 
-    grid-area: title;
-    padding: 10px 0px 10px 0px; 
-}
-
-.subtitle-container { 
-    grid-area: subtitle;
-    display: flex;
-    flex-direction: row;
-    gap: 5px; 
-}
-
-#star-icon {
-    width: 25px;
-    height: 25px;
-} */
   
 /*--------------------------------------------------------------
 # Search Results Page
@@ -376,17 +315,17 @@ nav {
 .add-grid {
     padding: 10px 0px 10px 0px;
     display: grid;
-    grid-template-rows: auto 400px auto auto auto auto;
+    grid-template-rows: auto 400px auto auto auto auto auto;
     grid-template-columns: 1fr;
     gap: 10px 0px;
     grid-template-areas: 
     "intro"
     "image"
     "metrics"
-    "cuisine"
     "difficulty"
     "ingredients"
-    "instructions";
+    "instructions"
+    "submit";
 }
 
 /*    Add General    */
@@ -466,19 +405,12 @@ label[for=image-input] {
 }
 
 .metric-wrapper {
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 #rating-input {
-    width: 100%;
-}
-
-/*    Add Cuisine   */
-#add-cuisine {
-    grid-area: cuisine;
-}
-#cuisine-input {
     width: 100%;
 }
 
@@ -543,6 +475,7 @@ label[for=image-input] {
 
 /*    Add Submit   */
 #add-submit {
+    grid-area: submit;
     display: flex;
     justify-content: flex-end;
 }
@@ -569,27 +502,60 @@ label[for=image-input] {
 # Edit Recipe Page
 --------------------------------------------------------------*/
 @media only screen and (min-width: 550px) {
-
+    body {
+        padding: 0px 30px 0px 30px;
+    }
     #recipe-feed {
         flex-direction: row;
     }
+}
 
-    .recipe-card {
+@media only screen and (min-width: 720px) {
+       .recipe-card {
         width: 49%;
-        height: 300px;
+    }
+
+    .recipe-grid {
+        width: 80%;
+        grid-template-rows: 0.1fr 400px 0.3fr auto auto; 
     }
 }
 
 @media only screen and (min-width: 1100px) {
+    body {
+        padding: 0px 40px 0px 40px;
+    }
     .recipe-card {
         width: 32.5%;
         height: 300px;
     }
+
+    .add-grid {
+        width: 80%;
+        grid-template-rows: auto 500px auto auto auto;
+    }
+
+    /* .recipe-grid {
+        grid-template-rows: 0.1fr 400px 0.3fr auto auto; 
+    } */
 }
 
 @media only screen and (min-width: 1500px) {
+    body {
+        padding: 0px 50px 0px 50px;
+    }
     .recipe-card {
         width: 24.4%;
         height: 300px;
+    }
+
+    .add-grid {
+        width: 70%;
+        grid-template-rows: auto 700px auto auto auto;
+    }
+
+     .recipe-grid {
+        width: 70%;
+        grid-template-rows: 0.1fr 500px 0.3fr auto auto; 
     }
 }
