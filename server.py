@@ -178,6 +178,7 @@ def search(search_entry=None):
         if search_entry in recipe_title:
             print(recipe)
             search_results["result"].append(recipe)
+    print(search_results)
     return render_template('searchresults.html', search_results = search_results)
 
 @app.route('/view_recipe/<id>', methods=['GET', 'POST'])

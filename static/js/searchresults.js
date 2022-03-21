@@ -1,5 +1,6 @@
 const displaySearchResults = (results) => {
     let messageToDisplay = results['message'];
+    console.log(messageToDisplay);
     let recipes = results["result"];
 
     $.each(recipes, (i, recipe) => {
@@ -26,8 +27,8 @@ const displaySearchResults = (results) => {
             let baseUrl = window.location.origin;
             window.location.replace(baseUrl + "/view_recipe/" + id);
         });
-        $("#results-message").append(messageToDisplay);
     })
+    $("#results-message").append(messageToDisplay);
 
     
 }
