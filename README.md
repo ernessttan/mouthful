@@ -19,3 +19,7 @@ A small recipe app, created with HTML, CSS and Javascript.
 - Learned how to do custom form control 
 - Learned how to create a modal
 - Learned more about using ```:root```
+
+### What I plan to do next
+- Connect the app to a database and deploy it
+- Add more features such as a shopping list
